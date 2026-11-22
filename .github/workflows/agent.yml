@@ -1,0 +1,19 @@
+name: Build LWOAgent
+on:
+  push:
+    branches: [master]
+    paths: ['LWOAgent/**', 'lol_picksandbans/**', 'LightWeightOverlay/**']
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet publish LWOAgent/LWOAgent.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -o agent-out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LWOAgent-win-x64
+          path: agent-out/LWOAgent.exe
