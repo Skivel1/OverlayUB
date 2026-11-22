@@ -1,0 +1,10 @@
+{$DOMAIN} {
+	# WebSocket: /ws -> puerto 9346 (se quita el prefijo /ws)
+	handle_path /ws* {
+		reverse_proxy lwo:9346
+	}
+	# Admin, overlay y assets -> puerto 9345
+	handle {
+		reverse_proxy lwo:9345
+	}
+}
