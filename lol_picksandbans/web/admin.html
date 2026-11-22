@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html bind-context="{lolChampSelect/}" bind="{path=admin/leftTeamColor attribute=style.--team-left-color in=cssVariableConverter}{path=admin/rightTeamColor attribute=style.--team-right-color in=cssVariableConverter}">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="overlay.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="admin.css" media="screen" />
+</head>
+
+<body >
+    <div class="header">
+      <div template="{class=teaminfo side=left}"></div>
+      <div class="phaseinfo">
+        <div class="matchinfo" contenteditable="true" bind="{attribute=innerHTML path=admin/matchInfo out=input}"></div>
+        <div class="patchinfo" contenteditable="true" bind="{attribute=innerHTML path=admin/patchInfo out=input}"></div>
+        <div class="countdown">
+            <select class="version-select" bind="{attribute=value path=admin/version out=change}"></select>
+        </div>
+        <div class="phase-title"></div>
+        <div class="flex-spacer"></div>
+      </div>
+      <div template="{class=teaminfo side=right}"></div>
+    </div>
+
+    <div class="left picks top three-big">
+        <div template="{class=pick team=1 slot=0}"></div>
+        <div template="{class=pick team=1 slot=1}"></div>
+        <div template="{class=pick team=1 slot=2}"></div>
+        <div template="{class=pick team=1 slot=3}"></div>
+        <div template="{class=pick team=1 slot=4}"></div>
+    </div>
+
+    <div class="right picks top three-big">
+        <div template="{class=pick team=2 slot=0}"></div>
+        <div template="{class=pick team=2 slot=1}"></div>
+        <div template="{class=pick team=2 slot=2}"></div>
+        <div template="{class=pick team=2 slot=3}"></div>
+        <div template="{class=pick team=2 slot=4}"></div>
+    </div>
+
+    <div class="left bans gone">
+        <div class="ban"></div>
+        <div class="ban"></div>
+        <div class="ban"></div>
+        <div class="ban"></div>
+        <div class="ban"></div>
+    </div>
+
+    <div class="right bans gone">
+        <div class="ban"></div>
+        <div class="ban"></div>
+        <div class="ban"></div>
+        <div class="ban"></div>
+        <div class="ban"></div>
+    </div>
+
+    <div id="templates" style="display: none" >
+        <div class="pick after-initial">
+            <div class="pick-text">
+                <select class="role-select" aria-label="Posición del jugador" bind="{attribute=value path=admin/positions/{team}/{slot} out=change}">
+                    <option value="top">Toplane</option>
+                    <option value="bottom">Botlane</option>
+                    <option value="jungle">Jungle</option>
+                    <option value="middle">Midlane</option>
+                    <option value="utility">Support</option>
+                    <option value="auto">Auto</option>
+                </select>
+
+                <p class="pick-champ"></p>
+                <p class="pick-player"></p>
+            </div>
+                <div class="display"></div>
+        </div>
+    
+        <div class="teaminfo teaminfo-{side}">
+            <div class="logo">
+                <p class="team-{side}-color" contenteditable="true" bind="{attribute=innerHTML path=admin/{side}TeamColor out=input"></p>
+                <img bind="{attribute=src path=admin/{side}TeamIcon in=teamLogoConverter}"/>
+                <p class="team-{side}-icon-fn" contenteditable="true" bind="{attribute=innerHTML path=admin/{side}TeamIcon out=input}"></p>
+            </div>
+            <div class="name"><div class="spacer33"></div><p contenteditable="true" bind="{attribute=innerHTML path=admin/{side}TeamName out=input}"></p></div>
+            <div class="score"><div class="spacer33"></div><p contenteditable="true" bind="{attribute=innerHTML path=admin/{side}TeamScore out=input}"></p></div>
+        </div>
+    </div>
+    <script src="state.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>

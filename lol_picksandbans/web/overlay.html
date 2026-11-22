@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html bind-context="{lolChampSelect/}" bind="{path=admin/leftTeamColor attribute=style.--team-left-color in=cssVariableConverter}{path=admin/rightTeamColor attribute=style.--team-right-color in=cssVariableConverter}">
+  <head>
+      <link rel="stylesheet" type="text/css" href="overlay.css" media="screen"/>
+  </head>
+  <body>
+    <div class="header gone">
+      <div template="{class=teaminfo side=left}"></div>
+      <div class="phaseinfo">
+        <div class="matchinfo" bind="{attribute=innerHTML path=admin/matchInfo}"></div>
+        <div class="patchinfo" bind="{attribute=innerHTML path=admin/patchInfo}"></div>
+        <div class="countdown"></div>
+        <div class="phase-title"></div>
+        <div class="flex-spacer"></div>
+      </div>
+      <div template="{class=teaminfo side=right}"></div>
+    </div>
+    
+    <div class="left picks gone">
+      <div template="{class=pick team=1 slot=0}"></div>
+      <div template="{class=pick team=1 slot=1}"></div>
+      <div template="{class=pick team=1 slot=2}"></div>
+      <div template="{class=pick team=1 slot=3}"></div>
+      <div template="{class=pick team=1 slot=4}"></div> 
+    </div>
+    
+    <div class="right picks gone">
+      <div template="{class=pick team=2 slot=0}"></div>
+      <div template="{class=pick team=2 slot=1}"></div>
+      <div template="{class=pick team=2 slot=2}"></div>
+      <div template="{class=pick team=2 slot=3}"></div>
+      <div template="{class=pick team=2 slot=4}"></div>
+    </div>
+    
+    <div class="left bans three-big gone">
+      <div template="{class=ban team=1 slot=0}"></div>
+      <div template="{class=ban team=1 slot=1}"></div>
+      <div template="{class=ban team=1 slot=2}"></div>
+      <div template="{class=ban team=1 slot=3}"></div>
+      <div template="{class=ban team=1 slot=4}"></div>
+    </div>
+ 
+    <div class="right bans three-big gone">
+      <div template="{class=ban team=2 slot=0}"></div>
+      <div template="{class=ban team=2 slot=1}"></div>
+      <div template="{class=ban team=2 slot=2}"></div>
+      <div template="{class=ban team=2 slot=3}"></div>
+      <div template="{class=ban team=2 slot=4}"></div>
+    </div>
+ 
+    <div id="templates" style="display: none" >
+      <div class='ban' bind-context="{lolChampSelect/ban/{team}/{slot}/}" bind="{attribute=style path=style in=propertyCopyConverter}"></div>
+
+      <div class="pick" bind-context="{lolChampSelect/pick/{team}/{slot}/}" bind="{attribute=layout path=layout in=layoutConverter}{attribute=style.flex-grow path=flex}">
+        <div class='pick-text'>
+          <div class='pos-icon' bind="{attribute=style.backgroundImage path=positionBackgroundImage}"></div>
+          <p class='pick-champ' bind="{attribute=innerHTML path=championName}"/>
+          <p class='pick-player' bind="{attribute=innerHTML path=summonerName}"/>
+        </div>
+        <div class='display' bind="{attribute=style path=style in=propertyCopyConverter}"></div>
+      </div>
+
+      <div class="teaminfo teaminfo-{side}">
+          <div class="logo"><div class="spacer33"></div><img bind="{attribute=src path=admin/{side}TeamIcon in=teamLogoConverter}"/></div>
+          <div class="name"><div class="spacer33"></div><p bind="{attribute=innerHTML path=admin/{side}TeamName}"></p></div>
+          <div class="score"><div class="spacer33"></div><p bind="{attribute=innerHTML path=admin/{side}TeamScore}"></p></div>
+        </div>
+    </div>
+    
+    <div id="preloader"></div>
+    <script src="state.js"></script>
+    <script src="overlay.js"></script>
+  </body>
+</html>
