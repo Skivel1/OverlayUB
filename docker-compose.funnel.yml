@@ -1,0 +1,35 @@
+# Modo TAILSCALE FUNNEL (gratis, sin dominio). Compose path en Portainer: docker-compose.funnel.yml
+# Publica Caddy en el puerto 8080 del servidor; Tailscale Funnel lo expone en internet con HTTPS:
+#   sudo tailscale funnel --bg 8080
+# URLs:  https://TU-SERVIDOR.TU-TAILNET.ts.net/lol_picksandbans/overlay.html?token=LWO_TOKEN
+#        agente -> wss://TU-SERVIDOR.TU-TAILNET.ts.net/ws?token=LWO_TOKEN
+# Dentro de tu tailnet tambien: http://100.89.247.31:8080/...  y  ws://100.89.247.31:8080/ws?token=...
+services:
+  lwo:
+    build: .
+    restart: unless-stopped
+    environment:
+      LWO_TOKEN: ${LWO_TOKEN}
+      LWO_IP: ${LWO_IP:-*}
+    expose:
+      - "9345"
+      - "9346"
+    volumes:
+      - lwo-data:/data
+      - lwo-cache:/app/apps/cache_dragon/cache
+
+  proxy:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.caddy
+    restart: unless-stopped
+    environment:
+      DOMAIN: ":80"                    # HTTP plano; Funnel pone el HTTPS
+    ports:
+      - "8080:80"
+    depends_on:
+      - lwo
+
+volumes:
+  lwo-data:
+  lwo-cache:
