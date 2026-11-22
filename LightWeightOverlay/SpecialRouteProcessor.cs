@@ -92,11 +92,10 @@ namespace LightWeightOverlay
 
             string filePath = ctx.Request.RawUrlWithoutQuery;
             filePath = filePath.Replace(Path, MapTo);
-            if (!String.IsNullOrEmpty(filePath))
-            {
-                while (filePath.StartsWith("/")) filePath = filePath.Substring(1);
-            }
-
+         if (!String.IsNullOrEmpty(filePath) && !System.IO.Path.IsPathRooted(MapTo))
+{
+    while (filePath.StartsWith("/")) filePath = filePath.Substring(1);
+}
             if (!System.IO.Path.IsPathRooted(filePath))
             {
                 string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
