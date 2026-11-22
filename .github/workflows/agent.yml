@@ -1,7 +1,7 @@
 name: Build LWOAgent
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths: ['LWOAgent/**', 'lol_picksandbans/**', 'LightWeightOverlay/**']
   workflow_dispatch:
 jobs:
