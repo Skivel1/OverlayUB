@@ -1,0 +1,37 @@
+# Modo DOMINIO + HTTPS (Caddy). Compose path en Portainer: docker-compose.caddy.yml
+# Requiere: DNS de DOMAIN apuntando al servidor y puertos 80/443 libres.
+# URLs:  https://DOMAIN/lol_picksandbans/overlay.html?token=LWO_TOKEN
+#        agente -> wss://DOMAIN/ws?token=LWO_TOKEN
+services:
+  lwo:
+    build: .
+    restart: unless-stopped
+    environment:
+      LWO_TOKEN: ${LWO_TOKEN}
+      LWO_IP: ${LWO_IP:-*}
+    expose:
+      - "9345"
+      - "9346"
+    volumes:
+      - lwo-data:/data
+      - lwo-cache:/app/apps/cache_dragon/cache
+
+  proxy:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.caddy
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy-data:/data
+    depends_on:
+      - lwo
+
+volumes:
+  lwo-data:
+  lwo-cache:
+  caddy-data:

@@ -1,0 +1,20 @@
+# Modo RED LOCAL: sin dominio ni HTTPS. Compose path en Portainer: docker-compose.yml
+# URLs:  http://IP_SERVIDOR:9345/lol_picksandbans/overlay.html?token=LWO_TOKEN
+#        agente -> ws://IP_SERVIDOR:9346?token=LWO_TOKEN
+services:
+  lwo:
+    build: .
+    restart: unless-stopped
+    environment:
+      LWO_TOKEN: ${LWO_TOKEN}          # obligatorio: secreto compartido (overlay, admin, agente)
+      LWO_IP: ${LWO_IP:-*}             # si Watson no escucha, probar 0.0.0.0
+    ports:
+      - "9345:9345"                    # web: admin + overlay
+      - "9346:9346"                    # websocket
+    volumes:
+      - lwo-data:/data                 # globalstate.json (estado/ajustes del admin)
+      - lwo-cache:/app/apps/cache_dragon/cache
+
+volumes:
+  lwo-data:
+  lwo-cache:
